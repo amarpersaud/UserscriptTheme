@@ -4,7 +4,6 @@
 // @grant    none
 // @include  *
 // @namespace WordpresThemeScript
-// @include *
 // ==/UserScript==
 
 
