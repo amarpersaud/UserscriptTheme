@@ -4,11 +4,12 @@
 // @grant    none
 // @include  *
 // @namespace WordpresThemeScript
+// @include *
 // ==/UserScript==
 
 
 var font_size = '20px';
-var font_url = '"https://fonts.googleapis.com/css?family=Open+Sans"';
+var font_url = "https://fonts.googleapis.com/css?family=Open+Sans";
 var font_family = '"Open Sans"';
 
 var backgroundColor = "#000";
@@ -17,10 +18,11 @@ var linkColor = "#ff6666"
 
 var cssLink = "https://cdn.rawgit.com/amarpersaud/UserscriptTheme/master/style.css"
 
-var rules = `:root{--font-size:${font_size};--font-url:${font_url};--font-family:${font_family};--background-color:${backgroundColor};--foreground-color:${foregroundColor};--link-color:${linkColor};}`;
+var rules = `:root{--font-size:${font_size};--font-family:${font_family};--background-color:${backgroundColor};--foreground-color:${foregroundColor};--link-color:${linkColor};}`;
 
 
-var includedSites = ["wordpress", "gravitytales", "wuxiaworld", "webnovel"]
+var includedSites = ["wordpress", "gravitytales", "wuxiaworld", "webnovel"];
+var excludedSites = ["novelupdates"];
 
 function GetURLParameter(sParam) {
 	var sPageURL = window.location.search.substring(1);
@@ -56,6 +58,24 @@ function removeGoogleAds() {
 }
 
 function isSelectedSite(){
+	
+	var domainPath = window.location.hostname.toLowerCase();
+	
+	for(i = 0; i < excludedSites.length; i++)
+	{
+		if(domainPath.includes(excludedSites[i])){
+			return false;
+		}
+	}
+	for(i = 0; i < includedSites.length; i++)
+	{
+		if(domainPath.includes(includedSites[i])){
+			return true;
+		}
+	}
+	
+	
+	
 	var generatorElem = document.getElementsByName("generator");
 	if(generatorElem != null && generatorElem.length > 0){
 		generatorContent = generatorElem[0].getAttribute("content").toLowerCase();
@@ -64,15 +84,14 @@ function isSelectedSite(){
 			return true;
 		}	
 	}
-	if(window.location.pathname.includes("wp")){
+	
+	
+	
+	if(document.head.innerHTML.includes("wp-")){
 		return true;
 	}
-	var domainPath = window.location.hostname.toLowerCase();
-	for(i = 0; i < includedSites.length; i++)
-	{
-		if(domainPath.includes(includedSites[i])){
-			return true;
-		}
+	if(window.location.pathname.includes("wp-")){
+		return true;
 	}
 	return false;
 }
@@ -87,6 +106,8 @@ function ApplyStyles(){
 		
 		head.innerHTML += "<style>" + rules + "</style>";
 		
+		head.innerHTML += `<link rel="stylesheet" type="text/css" href="` + font_url + `"/>`;
+		
 		head.innerHTML += `<link rel="stylesheet" type="text/css" href="` + cssLink + `"/>`;
 		
 		removeGoogleAds();
@@ -97,4 +118,4 @@ function ApplyStyles(){
 
 console.log("Applying Onload");
 	
-document.body.onload = ApplyStyles();;
+document.body.onload = ApplyStyles();
