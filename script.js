@@ -7,16 +7,17 @@
 // ==/UserScript==
 
 
-var font_size = 20;
-var font_url = "https://fonts.googleapis.com/css?family=Open+Sans";
-var font_family = "Open Sans";
+var font_size = '20px';
+var font_url = '"https://fonts.googleapis.com/css?family=Open+Sans"';
+var font_family = '"Open Sans"';
 
 var backgroundColor = "#000";
 var foregroundColor = "#fff";
 var linkColor = "#ff6666"
 
+var cssLink = "https://cdn.rawgit.com/amarpersaud/UserscriptTheme/master/style.css"
 
-var rules = ":root{--font-size:${font_size};--font-url:${font_url};--font-family:${font_family};--background-color:${backgroundColor};--color:${foregroundColor};--link-color:${linkColor};}";
+var rules = `:root{--font-size:${font_size};--font-url:${font_url};--font-family:${font_family};--background-color:${backgroundColor};--foreground-color:${foregroundColor};--link-color:${linkColor};}`;
 
 
 var includedSites = ["wordpress", "gravitytales", "wuxiaworld", "webnovel"]
@@ -84,10 +85,9 @@ function ApplyStyles(){
 		console.log("Is Selected Site");
 		head = document.getElementsByTagName("head")[0];
 		
-		//text = '<style>' + font_face + '.wrapper{margin: 0 !important; width: 100%;} #a-page{margin:0 !important;} *{border:none !important;box-shadow:none !important;outline: none !important;text-shadow:none !important; background-color: ' + backgroundColor + ' !important; background: ' + backgroundColor + ' !important; color: ' + foregroundColor + ' !important;font-size:' + font_size + 'px !important; ' + font_rules + '}a{text-decoration:underline !important;color: ' + linkColor + ' !important;}#lite-content{padding:0 !important;}p{text-indent:1em !important; text-align: left !important; } </style>';
-
-		
 		head.innerHTML += "<style>" + rules + "</style>";
+		
+		head.innerHTML += `<link rel="stylesheet" type="text/css" href="` + cssLink + `"/>`;
 		
 		removeGoogleAds();
 
