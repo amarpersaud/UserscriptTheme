@@ -1,0 +1,36 @@
+/* General rules */
+
+@import url(var(--font-url));
+*{
+	border:none !important;
+	box-shadow:none !important;
+	outline: none !important;
+	text-shadow:none !important;
+	background-color: var(--background-color) !important;
+	background: var(--background-color) !important;
+	color: var(--foreground-color) !important;
+	font-size: var(--font-size) !important;
+	font-family: var(--font-family) !important;
+}
+a{
+	text-decoration:underline !important;
+	color: var(--link-color) !important;
+}
+p{
+	text-indent:1em !important;
+	text-align: left !important;
+}
+
+/* Site specific: */
+
+.wrapper{
+	margin: 0 !important;
+	width: 100%;
+	padding: 5px;
+}
+ #a-page{
+	margin:0 !important;
+}
+#lite-content{
+	padding:0 !important;
+}
