@@ -28,7 +28,7 @@ var cssLink = "https://cdn.rawgit.com/amarpersaud/UserscriptTheme/master/style.c
 var rules = `:root{--font-size:${font_size};--font-family:${font_family};--background-color:${backgroundColor};--foreground-color:${foregroundColor};--link-color:${linkColor};}`;
 
 
-var includedSites = ["wordpress", "gravitytales", "wuxiaworld", "webnovel"];
+var includedSites = ["wp","wordpress", "gravitytales", "wuxiaworld", "webnovel"];
 var excludedSites = ["novelupdates"];
 
 var head = document.getElementsByTagName("head")[0];
@@ -68,7 +68,7 @@ function removeGoogleAds() {
 
 function isSelectedSite(){
     if(enabledGlobally){return true;}
-	var domainPath = window.location.hostname.toLowerCase();
+	var domainPath = window.location.toLowerCase();
 
 	for(i = 0; i < excludedSites.length; i++)
 	{
