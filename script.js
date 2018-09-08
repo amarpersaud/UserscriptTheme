@@ -1,11 +1,19 @@
 // ==UserScript==
 // @name     Wordpress Theme script
-// @version  1
-// @grant    none
 // @include  *
 // @namespace WordpresThemeScript
+// @version      1
+// @description  Make background black and text white
+// @author       Amar Persaud
+// @grant        none
+
+
 // ==/UserScript==
 
+(function() {
+    'use strict';
+
+var enabledGlobally = true;
 
 var font_size = '20px';
 var font_url = "https://fonts.googleapis.com/css?family=Open+Sans";
@@ -22,6 +30,8 @@ var rules = `:root{--font-size:${font_size};--font-family:${font_family};--backg
 
 var includedSites = ["wordpress", "gravitytales", "wuxiaworld", "webnovel"];
 var excludedSites = ["novelupdates"];
+
+var head = document.getElementsByTagName("head")[0];
 
 function GetURLParameter(sParam) {
 	var sPageURL = window.location.search.substring(1);
@@ -49,7 +59,7 @@ function hideElements(elements) {
 
 function removeGoogleAds() {
 	try{
-		s = document.getElementsByClassName("lite-ad");
+		var s = document.getElementsByClassName("lite-ad");
 		for (i = 0; i < s.length; i++) {
 			s[i].style = "display:none !important;";
 		}
@@ -57,9 +67,9 @@ function removeGoogleAds() {
 }
 
 function isSelectedSite(){
-	
+    if(enabledGlobally){return true;}
 	var domainPath = window.location.hostname.toLowerCase();
-	
+
 	for(i = 0; i < excludedSites.length; i++)
 	{
 		if(domainPath.includes(excludedSites[i])){
@@ -72,20 +82,20 @@ function isSelectedSite(){
 			return true;
 		}
 	}
-	
-	
-	
+
+
+
 	var generatorElem = document.getElementsByName("generator");
 	if(generatorElem != null && generatorElem.length > 0){
 		generatorContent = generatorElem[0].getAttribute("content").toLowerCase();
-		
+
 		if(generatorContent.includes("wordpress")){
 			return true;
-		}	
+		}
 	}
-	
-	
-	
+
+
+
 	if(document.head.innerHTML.includes("wp-")){
 		return true;
 	}
@@ -96,19 +106,19 @@ function isSelectedSite(){
 }
 
 function ApplyStyles(){
-	
+
 	console.log("Checking if selected site");
 
 	if(isSelectedSite()){
 		console.log("Is Selected Site");
 		head = document.getElementsByTagName("head")[0];
-		
+
 		head.innerHTML += "<style>" + rules + "</style>";
-		
+
 		head.innerHTML += `<link rel="stylesheet" type="text/css" href="` + font_url + `"/>`;
-		
+
 		head.innerHTML += `<link rel="stylesheet" type="text/css" href="` + cssLink + `"/>`;
-		
+
 		removeGoogleAds();
 
 		hideElements(["wpadminbar"]);
@@ -116,5 +126,7 @@ function ApplyStyles(){
 }
 
 console.log("Applying Onload");
-	
+
 document.body.onload = ApplyStyles();
+
+})();
